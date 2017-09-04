@@ -21,6 +21,7 @@ namespace Pacman
         private void timer1_Tick(object sender, EventArgs e)
         {
             _pacmanFigure.Movement(this);
+            _pacmanFigure.Detection(this);
         }
 
         private void KeyIsDown(object sender, KeyEventArgs e)

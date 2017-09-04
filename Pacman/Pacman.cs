@@ -12,10 +12,10 @@ namespace Pacman
 {
     class Pacman
     {
-        private bool _goUp;
-        private bool _goDown;
-        private bool _goLeft;
-        private bool _goRight;
+        private bool _up;
+        private bool _down;
+        private bool _left;
+        private bool _right;
 
         private int _speed = 5;
 
@@ -24,16 +24,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _goUp = true;
+                    _up = true;
                     break;
                 case Keys.D:
-                    _goRight = true;
+                    _right = true;
                     break;
                 case Keys.S:
-                    _goDown = true;
+                    _down = true;
                     break;
                 case Keys.A:
-                    _goLeft = true;
+                    _left = true;
                     break;
             }
         }
@@ -43,37 +43,47 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _goUp = false;
+                    _up = false;
                     break;
                 case Keys.D:
-                    _goRight = false;
+                    _right = false;
                     break;
                 case Keys.S:
-                    _goDown = false;
+                    _down = false;
                     break;
                 case Keys.A:
-                    _goLeft = false;
+                    _left = false;
                     break;
             }
         }
 
         public void Movement(Form1 form)
         {
-            if (_goUp)
+            if (_up)
             {
                 form.pacman.Top -= _speed;
             }
-            else if (_goRight)
+            else if (_right)
             {
                 form.pacman.Left += _speed;
             }
-            else if (_goDown)
+            else if (_down)
             {
                 form.pacman.Top += _speed;
             }
-            else if (_goLeft)
+            else if (_left)
             {
                 form.pacman.Left -= _speed;
+            }
+        }
+
+        public void Detection(Form1 form)
+        {
+            foreach (Control x in form.Controls)
+            {
+                if (!(x is Panel) || x.Tag != "wall") continue;
+                if (!x.Bounds.IntersectsWith(form.pacman.Bounds)) continue;
+                form.timer1.Stop();
             }
         }
     }

@@ -115,7 +115,7 @@ namespace Pacman
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         public Panel pacman;
-        private Timer timer1;
+        public Timer timer1;
     }
 }
 
