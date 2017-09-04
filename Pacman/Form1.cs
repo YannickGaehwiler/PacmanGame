@@ -18,27 +18,19 @@ namespace Pacman
             InitializeComponent();
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.W)
-            {
-                _pacmanFigure.Up(this);
+            _pacmanFigure.Movement(this);
+        }
 
-            }
-            else if (e.KeyCode == Keys.S)
-            {
-                _pacmanFigure.Down(this);
+        private void KeyIsDown(object sender, KeyEventArgs e)
+        {
+            _pacmanFigure.KeyDown(e);
+        }
 
-            }
-            else if(e.KeyCode == Keys.A)
-            {
-                _pacmanFigure.Left(this);
-
-            }
-            else if(e.KeyCode == Keys.D)
-            {
-                _pacmanFigure.Right(this);
-            }
+        private void KeyIsUp(object sender, KeyEventArgs e)
+        {
+            _pacmanFigure.KeyUp(e);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,29 +12,69 @@ namespace Pacman
 {
     class Pacman
     {
-        public void Up(Form1 form)
+        private bool _goUp;
+        private bool _goDown;
+        private bool _goLeft;
+        private bool _goRight;
+
+        private int _speed = 5;
+
+        public void KeyDown(KeyEventArgs e)
         {
-            form.pacman.Location = new Point(form.pacman.Location.X, form.pacman.Location.Y - 5);
-            System.Threading.Thread.Sleep(100);
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    _goUp = true;
+                    break;
+                case Keys.D:
+                    _goRight = true;
+                    break;
+                case Keys.S:
+                    _goDown = true;
+                    break;
+                case Keys.A:
+                    _goLeft = true;
+                    break;
+            }
         }
 
-        public void Down(Form1 form)
+        public void KeyUp(KeyEventArgs e)
         {
-            form.pacman.Location = new Point(form.pacman.Location.X, form.pacman.Location.Y + 5);
-            System.Threading.Thread.Sleep(100);
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    _goUp = false;
+                    break;
+                case Keys.D:
+                    _goRight = false;
+                    break;
+                case Keys.S:
+                    _goDown = false;
+                    break;
+                case Keys.A:
+                    _goLeft = false;
+                    break;
+            }
         }
 
-        public void Left(Form1 form)
+        public void Movement(Form1 form)
         {
-            form.pacman.Location = new Point(form.pacman.Location.X - 5, form.pacman.Location.Y);
-            System.Threading.Thread.Sleep(100);
+            if (_goUp)
+            {
+                form.pacman.Top -= _speed;
+            }
+            else if (_goRight)
+            {
+                form.pacman.Left += _speed;
+            }
+            else if (_goDown)
+            {
+                form.pacman.Top += _speed;
+            }
+            else if (_goLeft)
+            {
+                form.pacman.Left -= _speed;
+            }
         }
-
-        public void Right(Form1 form)
-        {
-            form.pacman.Location = new Point(form.pacman.Location.X + 5, form.pacman.Location.Y);
-            System.Threading.Thread.Sleep(100);
-        }
-
     }
 }
