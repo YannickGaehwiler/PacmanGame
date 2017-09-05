@@ -1,12 +1,4 @@
-﻿using Pacman;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Pacman
 {
@@ -17,7 +9,7 @@ namespace Pacman
         private bool _left;
         private bool _right;
 
-        private int _speed = 5;
+        private int _speed = 2;
 
         public void KeyDown(KeyEventArgs e)
         {
@@ -81,9 +73,9 @@ namespace Pacman
         {
             foreach (Control x in form.Controls)
             {
-                if (!(x is Panel) || x.Tag != "wall") continue;
+                if (!(x is Panel) || (string)x.Tag != "wall") continue;
                 if (!x.Bounds.IntersectsWith(form.pacman.Bounds)) continue;
-                form.timer1.Stop();
+               _speed = 0;
             }
         }
     }
