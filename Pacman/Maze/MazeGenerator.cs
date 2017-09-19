@@ -12,22 +12,23 @@ namespace Pacman.Maze
 
         private readonly Dictionary<char, MazeTile> _mazeTileMapping = new Dictionary<char, MazeTile>
         {
-            { Empty, MazeTile.Empty },
-            { Wall, MazeTile.Wall },
-            { Coin, MazeTile.Coin },
-            { Superpill, MazeTile.Superpill }
+            {Empty, MazeTile.Empty},
+            {Wall, MazeTile.Wall},
+            {Coin, MazeTile.Coin},
+            {Superpill, MazeTile.Superpill}
         };
 
-        private ILogicalMaze _logicalMaze;
-        private int _rowLenght;
-        private int _rowCount;
         private string[] _lines;
+
+        private ILogicalMaze _logicalMaze;
+        private int _rowCount;
+        private int _rowLenght;
 
         public IMazeGenerator Generate(string stringMaze)
         {
-           this._lines = stringMaze.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-           this._rowLenght = _lines[0].Length;
-           this._rowCount = _lines.Length;
+            _lines = stringMaze.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            _rowLenght = _lines[0].Length;
+            _rowCount = _lines.Length;
 
             FillMaze();
             return this;
@@ -35,25 +36,23 @@ namespace Pacman.Maze
 
         public ILogicalMaze GetMaze()
         {
-            return this._logicalMaze;
+            return _logicalMaze;
         }
 
         private void FillMaze()
         {
-            this._logicalMaze = new LogicalMaze
+            _logicalMaze = new LogicalMaze
             {
-                Field = new MazeTile[this._rowCount, this._rowLenght]
+                Field = new MazeTile[_rowCount, _rowLenght]
             };
 
-            for (var row = 0; row < this._rowCount; row++)
-            {
-                FillRow(this._lines[row], row);
-            }
+            for (var row = 0; row < _rowCount; row++)
+                FillRow(_lines[row], row);
         }
 
         private void FillRow(string row, int rowNumber)
         {
-            for (var column = 0; column < this._rowLenght; column++)
+            for (var column = 0; column < _rowLenght; column++)
             {
                 var c = row[column];
                 SetField(c, rowNumber, column);
@@ -62,7 +61,7 @@ namespace Pacman.Maze
 
         private void SetField(char tileCharacter, int row, int column)
         {
-            this._logicalMaze.Field[row, column] = this._mazeTileMapping[tileCharacter];
+            _logicalMaze.Field[row, column] = _mazeTileMapping[tileCharacter];
         }
     }
 }

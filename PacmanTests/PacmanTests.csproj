@@ -76,7 +76,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FileReaderTest\FileReaderTest.cs" />
+    <Compile Include="MazeTests\DynamicMazeTest.cs" />
     <Compile Include="MazeTests\MazeGeneratorTest.cs" />
+    <Compile Include="PacmanTest\PacmanTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +90,11 @@
       <Project>{5ec4b8a6-29f0-43ad-8dca-dc74e0c64e01}</Project>
       <Name>Pacman</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FileReaderTest\TestFiles\maze.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

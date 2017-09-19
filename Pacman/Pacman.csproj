@@ -46,18 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileReader\FileReader.cs" />
+    <Compile Include="FileReader\IFileReader.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameController\GameController.cs" />
+    <Compile Include="IPacman.cs" />
+    <Compile Include="Maze\VisualMaze.cs" />
+    <Compile Include="Maze\IVisualMaze.cs" />
     <Compile Include="Maze\ILogicalMaze.cs" />
     <Compile Include="Maze\IMazeGenerator.cs" />
     <Compile Include="Maze\LogicalMaze.cs" />
     <Compile Include="Maze\MazeGenerator.cs" />
     <Compile Include="Maze\MazeTile.cs" />
     <Compile Include="Pacman.cs" />
+    <Compile Include="Panels\BasePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\CoinPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\SuperPillPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\WallPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

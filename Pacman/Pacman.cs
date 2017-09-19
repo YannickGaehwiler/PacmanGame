@@ -1,82 +1,22 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using Microsoft.Win32;
+using Pacman.Maze;
 
 namespace Pacman
 {
-    class Pacman
+    public class Pacman : IPacman
     {
-        private bool _up;
-        private bool _down;
-        private bool _left;
-        private bool _right;
 
-        private int _speed = 2;
+        public int Column { get; set; }
+        public int Row { get; set; }
 
-        public void KeyDown(KeyEventArgs e)
+        public void SetLocation(int column, int row)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                    _up = true;
-                    break;
-                case Keys.D:
-                    _right = true;
-                    break;
-                case Keys.S:
-                    _down = true;
-                    break;
-                case Keys.A:
-                    _left = true;
-                    break;
-            }
-        }
-
-        public void KeyUp(KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                    _up = false;
-                    break;
-                case Keys.D:
-                    _right = false;
-                    break;
-                case Keys.S:
-                    _down = false;
-                    break;
-                case Keys.A:
-                    _left = false;
-                    break;
-            }
-        }
-
-        public void Movement(Form1 form)
-        {
-            if (_up)
-            {
-                form.pacman.Top -= _speed;
-            }
-            else if (_right)
-            {
-                form.pacman.Left += _speed;
-            }
-            else if (_down)
-            {
-                form.pacman.Top += _speed;
-            }
-            else if (_left)
-            {
-                form.pacman.Left -= _speed;
-            }
-        }
-
-        public void Detection(Form1 form)
-        {
-            foreach (Control x in form.Controls)
-            {
-                if (!(x is Panel) || (string)x.Tag != "wall") continue;
-                if (!x.Bounds.IntersectsWith(form.pacman.Bounds)) continue;
-               _speed = 0;
-            }
+            this.Column = column;
+            this.Row = row;
         }
     }
 }

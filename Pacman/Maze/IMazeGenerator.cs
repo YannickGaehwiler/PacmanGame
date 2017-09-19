@@ -5,5 +5,4 @@
         IMazeGenerator Generate(string stringMaze);
         ILogicalMaze GetMaze();
     }
-
 }

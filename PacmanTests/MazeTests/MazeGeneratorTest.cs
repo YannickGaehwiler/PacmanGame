@@ -1,5 +1,7 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pacman.FileReader;
 using Pacman.Maze;
 using Xunit;
 
@@ -7,7 +9,7 @@ namespace PacmanTests.MazeTests
 {
     public class MazeGeneratorTest
     {
-        private IMazeGenerator _testee;
+        private readonly IMazeGenerator _testee;
 
         public MazeGeneratorTest()
         {
@@ -15,7 +17,7 @@ namespace PacmanTests.MazeTests
         }
 
         [Fact]
-        void MazeGenerator_CanReadTextMaze()
+        private void MazeGenerator_CanReadTextMaze()
         {
             // Arrange
             const string stringMaze = "xxxxxx";
@@ -31,7 +33,7 @@ namespace PacmanTests.MazeTests
         }
 
         [Fact]
-        void MazeGenerator_CanReadTextMaze_2D()
+        private void MazeGenerator_CanReadTextMaze_2D()
         {
             // Arrange
             string stringMaze = 
@@ -55,7 +57,7 @@ namespace PacmanTests.MazeTests
         }
 
         [Fact]
-        void MazeGenerator_CanReadTextMaze_EmptyFields()
+        private void MazeGenerator_CanReadTextMaze_EmptyFields()
         {
             // Arrange
             var stringMaze = 
@@ -77,7 +79,7 @@ namespace PacmanTests.MazeTests
         }
 
         [Fact]
-        void MazeGenerator_CanReadTextMaze_Coins()
+        private void MazeGenerator_CanReadTextMaze_Coins()
         {
             // Arrange
             var stringMaze = 
@@ -99,10 +101,10 @@ namespace PacmanTests.MazeTests
         }
 
         [Fact]
-        void MazeGenerator_CanReadTextMaze_Superpils()
+        private void MazeGenerator_CanReadTextMaze_Superpils()
         {
             // Arrange
-            var stringMaze = 
+            var stringMaze =
                 "xxxx" + Environment.NewLine +
                 "x!!x" + Environment.NewLine +
                 "xxxx";
@@ -114,10 +116,11 @@ namespace PacmanTests.MazeTests
             // Assert
             maze.Field.ShouldBeEquivalentTo(new MazeTile[3, 4]
             {
-                { MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Superpill, MazeTile.Superpill, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall}
+                {MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall},
+                {MazeTile.Wall, MazeTile.Superpill, MazeTile.Superpill, MazeTile.Wall},
+                {MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall}
             });
+
         }
     }
 }
