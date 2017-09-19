@@ -14,7 +14,7 @@ namespace Pacman.Panels
             BorderStyle = BorderStyle.FixedSingle;
         }
 
-        public void Draw(Point location, Form activeForm)
+        public void Draw(Point location)
         {
             Location = location;
             if (Form.ActiveForm != null) Form.ActiveForm.Controls.Add(this);

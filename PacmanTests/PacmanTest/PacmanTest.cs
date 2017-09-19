@@ -13,18 +13,19 @@ namespace PacmanTests.PacmanTest
 
         public PacmanTest()
         {
-            ILogicalMaze logicalMaze = new LogicalMaze();
+            ILogicalMaze logicalMaze = new LogicalMaze
+            {
+                Field = new[,]
+                {
+                    {MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall},
+                    {MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
+                    {MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
+                    {MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
+                    {MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall}
+                }
+            };
             _pacman = new Pacman.Pacman();
             this._gameController = new GameController(logicalMaze, _pacman);
-
-            logicalMaze.Field = new[,]
-            {
-                { MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Empty, MazeTile.Empty, MazeTile.Empty, MazeTile.Wall},
-                { MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall, MazeTile.Wall}
-            };
         }
 
 

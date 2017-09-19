@@ -6,7 +6,7 @@ namespace Pacman.Panels
     {
         public CoinPanel()
         {
-            BackColor = Color.Yellow;
+            BackColor = Color.Orange;
         }
 
         public override BasePanel Clone()

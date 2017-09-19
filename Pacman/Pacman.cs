@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Pacman.Maze;
+using Pacman.Panels;
 
 namespace Pacman
 {
-    public class Pacman : IPacman
+    public sealed class Pacman : IPacman
     {
-
         public int Column { get; set; }
         public int Row { get; set; }
 

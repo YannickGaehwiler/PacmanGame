@@ -34,7 +34,7 @@ namespace Pacman.Maze
             for (var columnNumber = 0; columnNumber < _numberOfColumns; columnNumber++)
             {
                 var panel = _panelMapping[logicalMaze.Field[rowNumber, columnNumber]];
-                panel?.Clone().Draw(new Point(XPosition * columnNumber, YPosition * rowNumber), Form.ActiveForm);
+                panel?.Clone().Draw(new Point(XPosition * columnNumber, YPosition * rowNumber));
             }
         }
     }
