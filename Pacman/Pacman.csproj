@@ -55,6 +55,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameController\GameController.cs" />
+    <Compile Include="GameController\IGameController.cs" />
     <Compile Include="IPacman.cs" />
     <Compile Include="Maze\VisualMaze.cs" />
     <Compile Include="Maze\IVisualMaze.cs" />

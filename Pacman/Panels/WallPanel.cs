@@ -6,7 +6,7 @@ namespace Pacman.Panels
     {
         public WallPanel()
         {
-            BackColor = Color.Black;
+            BackColor = Color.Gray;
         }
 
         public override BasePanel Clone()

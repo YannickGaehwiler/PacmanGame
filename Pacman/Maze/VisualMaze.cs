@@ -7,8 +7,8 @@ namespace Pacman.Maze
 {
     public class VisualMaze
     {
-        private const int XPosition = 50;
-        private const int YPosition = 50;
+        private const int XPosition = 30;
+        private const int YPosition = 30;
 
         private readonly Dictionary<MazeTile, BasePanel> _panelMapping = new Dictionary<MazeTile, BasePanel>
         {
@@ -20,13 +20,15 @@ namespace Pacman.Maze
 
         private int _numberOfColumns;
 
-        public void GenerateDynamicMaze(ILogicalMaze logicalMaze)
+        public VisualMaze GenerateDynamicMaze(ILogicalMaze logicalMaze)
         {
             var numberOfRows = logicalMaze.Field.GetLength(0);
             _numberOfColumns = logicalMaze.Field.Length / numberOfRows;
 
             for (var rowNumber = 0; rowNumber < numberOfRows; rowNumber++)
                 DrawRow(rowNumber, logicalMaze);
+
+            return this;
         }
 
         public void DrawRow(int rowNumber, ILogicalMaze logicalMaze)

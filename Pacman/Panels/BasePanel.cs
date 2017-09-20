@@ -5,8 +5,8 @@ namespace Pacman.Panels
 {
     public abstract class BasePanel : Panel
     {
-        private const int PanelWidth = 50;
-        private const int PanelHeigth = 50;
+        private const int PanelWidth = 30;
+        private const int PanelHeigth = 30;
 
         protected BasePanel()
         {

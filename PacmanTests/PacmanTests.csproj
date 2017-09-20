@@ -80,7 +80,7 @@
     <Compile Include="FileReaderTest\FileReaderTest.cs" />
     <Compile Include="MazeTests\DynamicMazeTest.cs" />
     <Compile Include="MazeTests\MazeGeneratorTest.cs" />
-    <Compile Include="PacmanTest\PacmanTest.cs" />
+    <Compile Include="PacmanTest\NavigationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

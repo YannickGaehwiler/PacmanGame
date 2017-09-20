@@ -31,36 +31,35 @@ namespace Pacman
         /// </summary>
         private void InitializeComponent()
         {
-            this.pacman = new System.Windows.Forms.Panel();
+            this.pacmanPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // pacman
+            // pacmanPanel
             // 
-            this.pacman.BackColor = System.Drawing.Color.Yellow;
-            this.pacman.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pacman.Location = new System.Drawing.Point(50, 50);
-            this.pacman.Name = "pacman";
-            this.pacman.Size = new System.Drawing.Size(50, 50);
-            this.pacman.TabIndex = 0;
+            this.pacmanPanel.BackColor = System.Drawing.Color.Yellow;
+            this.pacmanPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pacmanPanel.Location = new System.Drawing.Point(30, 30);
+            this.pacmanPanel.Name = "pacmanPanel";
+            this.pacmanPanel.Size = new System.Drawing.Size(30, 30);
+            this.pacmanPanel.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 434);
-            this.Controls.Add(this.pacman);
+            this.Controls.Add(this.pacmanPanel);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        public Panel pacman;
+        public Panel pacmanPanel;
     }
 }
 
