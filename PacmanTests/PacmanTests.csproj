@@ -81,6 +81,7 @@
     <Compile Include="MazeTests\DynamicMazeTest.cs" />
     <Compile Include="MazeTests\MazeGeneratorTest.cs" />
     <Compile Include="PacmanTest\NavigationTest.cs" />
+    <Compile Include="PacmanTest\ScoreTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

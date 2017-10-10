@@ -8,7 +8,7 @@ using Pacman.Panels;
 
 namespace Pacman
 {
-    public sealed class Pacman : IPacman
+    public sealed class Pacman : BasePanel, IPacman
     {
         public int Column { get; set; }
         public int Row { get; set; }
@@ -17,6 +17,11 @@ namespace Pacman
         {
             this.Column = column;
             this.Row = row;
+        }
+
+        public override BasePanel Clone()
+        {
+            return this;
         }
     }
 }

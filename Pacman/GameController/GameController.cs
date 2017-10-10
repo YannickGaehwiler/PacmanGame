@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Pacman.Maze;
 
@@ -21,81 +23,69 @@ namespace Pacman.GameController
             this._pacmanPanel = pacmanPanel;
         }
 
+        private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
+        {
+            {MazeTile.Coin, 1},
+            {MazeTile.Empty, 0},
+            {MazeTile.Superpill, 0}
+        };
+
+        private void UpdateScore()
+        {
+            this.Score += this._scoreDelta[_logicalMaze.Field[this._logicalPacman.Row, this._logicalPacman.Column]];
+        }
+
+        private void UpdatePacmanPanelLocation()
+        {
+            _pacmanPanel.Location = new Point(_logicalPacman.Column * Step, _logicalPacman.Row * 30);
+        }
+
         public void MovePacmanUp()
         {
-            switch (_logicalMaze.Field[_logicalPacman.Row - 1, _logicalPacman.Column])
+            if (_logicalMaze.Field[_logicalPacman.Row - 1, _logicalPacman.Column] == MazeTile.Wall)
             {
-                case MazeTile.Empty:
-                    _logicalPacman.Row--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y - Step);
-                    break;
-                case MazeTile.Coin:
-                    _logicalPacman.Row--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y - Step);
-                    break;
-                case MazeTile.Superpill:
-                    _logicalPacman.Row--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y - Step);
-                    break;
+                return;
             }
+
+            this._logicalPacman.Row--;
+            this.UpdatePacmanPanelLocation();
+            this.UpdateScore();
         }
 
         public void MovePacmanDown()
         {
-            switch (_logicalMaze.Field[_logicalPacman.Row + 1, _logicalPacman.Column])
+            if (_logicalMaze.Field[_logicalPacman.Row + 1, _logicalPacman.Column] == MazeTile.Wall)
             {
-                case MazeTile.Empty:
-                    _logicalPacman.Row++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y + Step);
-                    break;
-                case MazeTile.Coin:
-                    _logicalPacman.Row++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y + Step);
-                    break;
-                case MazeTile.Superpill:
-                    _logicalPacman.Row++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X, _pacmanPanel.Location.Y + Step);
-                    break;
+                return;
             }
+
+            this._logicalPacman.Row++;
+            this.UpdatePacmanPanelLocation();
+            this.UpdateScore();
         }
 
         public void MovePacmanRight()
         {
-            switch (_logicalMaze.Field[_logicalPacman.Row, _logicalPacman.Column + 1])
+            if (_logicalMaze.Field[_logicalPacman.Row, _logicalPacman.Column + 1] == MazeTile.Wall)
             {
-                case MazeTile.Empty:
-                    _logicalPacman.Column++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X + Step, _pacmanPanel.Location.Y);
-                    break;
-                case MazeTile.Coin:
-                    _logicalPacman.Column++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X + Step, _pacmanPanel.Location.Y);
-                    break;
-                case MazeTile.Superpill:
-                    _logicalPacman.Column++;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X + Step, _pacmanPanel.Location.Y);
-                    break;
+                return;
             }
+
+            this._logicalPacman.Column++;
+            this.UpdatePacmanPanelLocation();
+            this.UpdateScore();
         }
 
         public void MovePacmanLeft()
         {
-            switch (_logicalMaze.Field[_logicalPacman.Row, _logicalPacman.Column - 1])
+            if (_logicalMaze.Field[_logicalPacman.Row, _logicalPacman.Column - 1] == MazeTile.Wall)
             {
-                case MazeTile.Empty:
-                    _logicalPacman.Column--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X - Step, _pacmanPanel.Location.Y);
-                    break;
-                case MazeTile.Coin:
-                    _logicalPacman.Column--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X - Step, _pacmanPanel.Location.Y);
-                    Score++;
-                    break;
-                case MazeTile.Superpill:
-                    _logicalPacman.Column--;
-                    _pacmanPanel.Location = new Point(_pacmanPanel.Location.X - Step, _pacmanPanel.Location.Y);
-                    break;
+                return;
             }
+
+            this._logicalPacman.Column--;
+            this.UpdatePacmanPanelLocation();
+            this.UpdateScore();
         }
     }
 }
