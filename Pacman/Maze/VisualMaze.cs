@@ -5,39 +5,72 @@ using Pacman.Panels;
 
 namespace Pacman.Maze
 {
-    public class VisualMaze
+    public class VisualMaze : IVisualMaze
     {
+        public PacmanPanel Pacman;
+
+        public VisualMaze(ILogicalMaze logicalMaze)
+        {
+            GenerateDynamicMaze(logicalMaze);
+        }
+
+        private int _currentRow;
+        private int _currentColumn;
+
         private const int XPosition = 30;
         private const int YPosition = 30;
 
+        public Panel[,] Panels;
+
         private readonly Dictionary<MazeTile, BasePanel> _panelMapping = new Dictionary<MazeTile, BasePanel>
         {
-            {MazeTile.Empty, null},
+            {MazeTile.Empty, new EmptyPanel()},
             {MazeTile.Coin, new CoinPanel()},
             {MazeTile.Wall, new WallPanel()},
-            {MazeTile.Superpill, new SuperPillPanel()}
+            {MazeTile.Superpill, new SuperPillPanel()},
         };
 
-        private int _numberOfColumns;
+        private static int _numberOfColumns;
+        private static int _numberOfRows;
 
-        public VisualMaze GenerateDynamicMaze(ILogicalMaze logicalMaze)
+        private void GenerateDynamicMaze(ILogicalMaze logicalMaze)
         {
-            var numberOfRows = logicalMaze.Field.GetLength(0);
-            _numberOfColumns = logicalMaze.Field.Length / numberOfRows;
+            _currentRow = 0;
 
-            for (var rowNumber = 0; rowNumber < numberOfRows; rowNumber++)
+            _numberOfRows = logicalMaze.Field.GetLength(0);
+            _numberOfColumns = logicalMaze.Field.Length / _numberOfRows;
+
+            Panels = new Panel[_numberOfRows, _numberOfColumns];
+
+            for (var rowNumber = 0; rowNumber < _numberOfRows; rowNumber++)
+            {
                 DrawRow(rowNumber, logicalMaze);
-
-            return this;
+            }
         }
 
-        public void DrawRow(int rowNumber, ILogicalMaze logicalMaze)
+        private void DrawRow(int rowNumber, ILogicalMaze logicalMaze)
         {
+            _currentColumn = 0;
+
             for (var columnNumber = 0; columnNumber < _numberOfColumns; columnNumber++)
             {
-                var panel = _panelMapping[logicalMaze.Field[rowNumber, columnNumber]];
-                panel?.Clone().Draw(new Point(XPosition * columnNumber, YPosition * rowNumber));
+                var template = _panelMapping[logicalMaze.Field[rowNumber, columnNumber]];
+                var panel = template?.Clone();
+                panel.Draw(new Point(XPosition * columnNumber, YPosition * rowNumber));
+                Panels[_currentRow, _currentColumn] = panel; 
+                _currentColumn++;
             }
+            _currentRow++;
+        }
+
+        public Panel GetPanel(int row, int column)
+        {
+            return Panels[row, column];
+        }
+
+        public void SetPanel(MazeTile panelType, int row, int column)
+        {
+            Panels[row, column] = this._panelMapping[panelType].Clone();
         }
     }
 }

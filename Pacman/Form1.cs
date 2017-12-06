@@ -1,44 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Pacman.GameController;
 using Pacman.Maze;
 using Pacman.Panels;
 
 namespace Pacman
 {
-    public partial class Form1 : Form
+    public interface IRedraw
     {
-        private readonly VisualMaze _visualMaze;
-        private readonly GameController.GameController _gameController;
-        private readonly LogicalMaze _logicalMaze;
+        void RedrawMaze(IVisualMaze visualMaze);
+    }
 
-        private const string MazeFilePath = @"C:\Users\tkg7y.TKCDEV\Desktop\maze.txt";
+    public partial class Form1 : Form, IRedraw
+    {
+        private IGameController _gameController = null;
+        private readonly Func<IGameController> _gameControllerFactory;
 
-        public Form1()
+        public Form1(Func<IGameController> gameControllerFactory)
         {
             InitializeComponent();
             KeyPreview = true;
-
-            var logicalPacman = new Pacman();
-            var mazeGenerator = new MazeGenerator();
-            var fileReader = new FileReader.FileReader();
-
-            this._visualMaze = new VisualMaze();
-            this._logicalMaze = new LogicalMaze();
-            _logicalMaze = (LogicalMaze) mazeGenerator.Generate(fileReader.ReadFile(MazeFilePath))
-                .GetMaze();
-
-            pacmanPanel.Location = new Point(30, 30);
-            logicalPacman.SetLocation(1, 1);
-
-            _gameController = new GameController.GameController(_logicalMaze, logicalPacman, pacmanPanel);
+            this._gameControllerFactory = gameControllerFactory;
         }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            _visualMaze.GenerateDynamicMaze(_logicalMaze); 
-        }
-
+        
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -55,6 +41,19 @@ namespace Pacman
                 case Keys.S:
                     _gameController.MovePacmanDown();
                     break;
+            }
+        }
+
+        public void RedrawMaze(IVisualMaze visualMaze)
+        {
+
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            if (this._gameController == null)
+            {
+                this._gameController = this._gameControllerFactory();
             }
         }
     }

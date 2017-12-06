@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Pacman.GameController;
 using Pacman.Maze;
+using Pacman.Panels;
 using Xunit;
 
 namespace PacmanTests.PacmanTest
@@ -9,7 +10,7 @@ namespace PacmanTests.PacmanTest
     public class ScoreTest
     {
         private readonly GameController _gameController;
-        private readonly Pacman.Pacman _pacman;
+        private readonly PacmanPanel _pacmanPanel;
 
         public ScoreTest()
         {
@@ -23,8 +24,8 @@ namespace PacmanTests.PacmanTest
                 }
             };
 
-            this._pacman = new Pacman.Pacman();
-            this._gameController = new GameController(logicalMaze, _pacman, new Panel());
+            this._pacmanPanel = new PacmanPanel();
+            this._gameController = new GameController(logicalMaze, _pacmanPanel, new Panel());
         }
 
         [Fact]
@@ -32,7 +33,7 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
 
             _gameController.MovePacmanUp();
 
@@ -44,7 +45,7 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
 
             _gameController.MovePacmanDown();
 
@@ -56,7 +57,7 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
 
             _gameController.MovePacmanLeft();
 
@@ -68,7 +69,7 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
 
             _gameController.MovePacmanRight();
 

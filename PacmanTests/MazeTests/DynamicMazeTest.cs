@@ -10,7 +10,7 @@ namespace PacmanTests.MazeTests
         private readonly VisualMaze _testee;
         public DynamicMazeTest()
         {
-            _testee = new VisualMaze();
+            _testee = new VisualMaze(TODO);
         }
 
         [Fact]

@@ -5,6 +5,7 @@
         Empty,
         Wall,
         Superpill,
-        Coin
+        Coin,
+        Pacman
     }
 }

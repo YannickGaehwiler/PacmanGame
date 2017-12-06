@@ -17,7 +17,10 @@ namespace Pacman.Panels
         public void Draw(Point location)
         {
             Location = location;
-            if (Form.ActiveForm != null) Form.ActiveForm.Controls.Add(this);
+            if (Form.ActiveForm != null)
+            {
+                Form.ActiveForm.Controls.Add(this);
+            }
         }
 
         public abstract BasePanel Clone();

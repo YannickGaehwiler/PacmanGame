@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using Pacman.GameController;
+using Pacman.Maze;
+using Pacman.Panels;
 
 namespace Pacman
 {
     internal static class Program
     {
+        public static readonly string MazeFilePath = @"C:\Users\tkg7y.TKCDEV\Desktop\maze.txt";
+        public static PacmanPanel Pacman;
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
@@ -13,7 +19,21 @@ namespace Pacman
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            var myForm = new Form1(CreateGameController);
+            Application.Run(myForm);
+        }
+
+        private static IGameController CreateGameController()
+        {
+            var mazeGenerator = new MazeGenerator();
+            var fileReader = new FileReader.FileReader();
+            var logicalMaze = (LogicalMaze) mazeGenerator.Generate(fileReader.ReadFile(MazeFilePath)).GetMaze();
+
+            Pacman = new PacmanPanel();
+            Pacman.Draw(new Point(30 * 1, 30 * 1));
+            
+            return new GameController.GameController(logicalMaze, Pacman);
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Windows.Forms;
 using FluentAssertions;
 using Pacman.GameController;
 using Pacman.Maze;
+using Pacman.Panels;
 using Xunit;
-using Xunit.Sdk;
 
 
 namespace PacmanTests.PacmanTest
@@ -12,14 +12,14 @@ namespace PacmanTests.PacmanTest
     public class PacmanTest
     {
         private readonly GameController _gameController;
-        private readonly Pacman.Pacman _pacman;
+        private readonly PacmanPanel _pacmanPanel;
         private readonly ILogicalMaze _logicalMaze;
 
         public PacmanTest()
         {
             this._logicalMaze = new LogicalMaze();
-            this._pacman = new Pacman.Pacman();
-            this._gameController = new GameController(_logicalMaze, _pacman, new Panel());
+            this._pacmanPanel = new PacmanPanel();
+            this._gameController = new GameController(_logicalMaze, _pacmanPanel, new Panel());
         }
 
 
@@ -29,13 +29,13 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
             _logicalMaze.Field = mazeTile;
 
             _gameController.MovePacmanUp();
 
-            this._pacman.Column.Should().Be(expectedColumn);
-            this._pacman.Row.Should().Be(expectedRow);
+            this._pacmanPanel.Column.Should().Be(expectedColumn);
+            this._pacmanPanel.Row.Should().Be(expectedRow);
         }
 
         [Theory]
@@ -44,13 +44,13 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
             _logicalMaze.Field = mazeTile;
 
             _gameController.MovePacmanDown();
 
-            this._pacman.Column.Should().Be(expectedColumn);
-            this._pacman.Row.Should().Be(expectedRow);
+            this._pacmanPanel.Column.Should().Be(expectedColumn);
+            this._pacmanPanel.Row.Should().Be(expectedRow);
         }
 
         [Theory]
@@ -59,13 +59,13 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
             _logicalMaze.Field = mazeTile;
 
             _gameController.MovePacmanRight();
 
-            this._pacman.Column.Should().Be(expectedColumn);
-            this._pacman.Row.Should().Be(expectedRow);
+            this._pacmanPanel.Column.Should().Be(expectedColumn);
+            this._pacmanPanel.Row.Should().Be(expectedRow);
         }
 
         [Theory]
@@ -74,13 +74,13 @@ namespace PacmanTests.PacmanTest
         {
             const int columnLocation = 1;
             const int rowLocation = 1;
-            this._pacman.SetLocation(columnLocation, rowLocation);
+            this._pacmanPanel.SetLogicalLocation(columnLocation, rowLocation);
             _logicalMaze.Field = mazeTile;
 
             _gameController.MovePacmanLeft();
 
-            this._pacman.Column.Should().Be(expectedColumn);
-            this._pacman.Row.Should().Be(expectedRow);
+            this._pacmanPanel.Column.Should().Be(expectedColumn);
+            this._pacmanPanel.Row.Should().Be(expectedRow);
         }
 
         private static MazeTile[,] GetEmptyMaze()

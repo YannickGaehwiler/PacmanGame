@@ -15,7 +15,7 @@ namespace Pacman.Maze
             {Empty, MazeTile.Empty},
             {Wall, MazeTile.Wall},
             {Coin, MazeTile.Coin},
-            {Superpill, MazeTile.Superpill}
+            {Superpill, MazeTile.Superpill},
         };
 
         private string[] _lines;

@@ -1,7 +1,10 @@
-﻿namespace Pacman.Maze
+﻿using System.Windows.Forms;
+
+namespace Pacman.Maze
 {
     public interface IVisualMaze
     {
-        void GenerateDynamicMaze();
+        Panel GetPanel(int row, int column);
+        void SetPanel(MazeTile panelType, int row, int column);
     }
 }
