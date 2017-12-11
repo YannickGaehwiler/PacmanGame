@@ -64,6 +64,13 @@ namespace Pacman
         private void UpdateMaze(int column, int row)
         {
             _pacman.Location = new Point(row * 30, column * 30);
+            var currentPanel = _visualMaze.GetPanel(column, row);
+
+            if (currentPanel is CoinPanel)
+            {
+                this.Controls.Remove(currentPanel);
+                _visualMaze.SetPanel(MazeTile.Empty, column, row);
+            }
         }
     }
 }
