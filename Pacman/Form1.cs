@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Pacman.GameController;
 using Pacman.Maze;
@@ -7,12 +8,6 @@ using Pacman.Panels;
 
 namespace Pacman
 {
-    public interface Ix
-    {
-        void SetMazeTileAtPosition(MazeTile mazeTile, int row, int column);
-        void SetPacman(int row, int column);
-        void SetMaze(ILogicalMaze logicalMaze);
-    }
 
     public partial class Form1 : Form
     {
@@ -58,18 +53,20 @@ namespace Pacman
                 this._pacman = this._pacmanFactory();
                 this._gameController = this._gameControllerFactory();
                 this._visualMaze = new VisualMaze(_gameController.LogicalMaze);
+                this.ClientSize = new Size(_gameController.LogicalMaze.Field.Length / _gameController.LogicalMaze.Field.GetLength(0) * 50, _gameController.LogicalMaze.Field.GetLength(0) * 50);
             }
         }
-
-        private void UpdateMaze(int column, int row, MazeTile mazeTile)
+        
+        private void UpdateMaze(int row, int column, int score)
         {
+            this.Text = "PACMAN - SCORE: " + score;
             _pacman.MoveTo(row, column);
-            var currentPanel = _visualMaze.GetPanel(column, row);
+            var currentPanel = _visualMaze.GetPanel(row, column);
 
             if (currentPanel is CoinPanel)
             {
                 this.Controls.Remove(currentPanel);
-                _visualMaze.SetPanel(MazeTile.Empty, column, row);
+                _visualMaze.SetPanel(MazeTile.Empty, row, column);
             }
         }
     }

@@ -5,7 +5,7 @@
         public int Column { get; set; }
         public int Row { get; set; }
 
-        public LogicalPacman(int col, int row)
+        public LogicalPacman(int row, int col)
         {
             this.Column = col;
             this.Row = row;

@@ -17,7 +17,7 @@ namespace Pacman.Panels
 
         public void MoveTo(int row, int column)
         {
-            Draw(row, column, false);
+            Draw(column, row, false);
         }
     }
 }
