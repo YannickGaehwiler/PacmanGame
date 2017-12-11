@@ -1,28 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 using Pacman.Maze;
-using Pacman.Panels;
+using Pacman.Pacman;
 
 namespace Pacman.GameController
 {
     public class GameController : IGameController
     {
         private readonly ILogicalMaze _logicalMaze;
-        private readonly PacmanPanel _pacman;
-        private readonly IVisualMaze _visualMaze;
-
-        private const int Step = 30;
+        private readonly LogicalPacman _pacman;
 
         public int Score { get; private set; }
 
-        public GameController(ILogicalMaze logicalMaze, PacmanPanel pacman)
+        public GameController(ILogicalMaze logicalMaze)
         {
             this._logicalMaze = logicalMaze;
-            this._visualMaze = new VisualMaze(logicalMaze);
-            _pacman = pacman;
-            _pacman.SetLogicalLocation(1, 1);
+            this._pacman = new LogicalPacman(1, 1);
         }
 
         private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
@@ -41,28 +34,10 @@ namespace Pacman.GameController
 
             this.Score += this._scoreDelta[this._logicalMaze.Field[this._pacman.Row, this._pacman.Column]];
             Console.WriteLine("Score: " + Score);
-
             this._logicalMaze.Field[this._pacman.Row, this._pacman.Column] = MazeTile.Empty;
-
-            var coinpanel = _visualMaze.GetPanel(this._pacman.Row, this._pacman.Column);
-
-            Form.ActiveForm.Controls.Remove(coinpanel);
-
-            _visualMaze.SetPanel(MazeTile.Empty, this._pacman.Row, this._pacman.Column);
-
-            var newPanel = _visualMaze.GetPanel(this._pacman.Row, this._pacman.Column);
-
-            newPanel.Location = new Point(this._pacman.Column * Step, this._pacman.Row * Step);
-
-            Form.ActiveForm.Controls.Add(newPanel);
         }
 
-        private void UpdatePacmanPanelLocation()
-        {
-            this._pacman.Location = new Point(this._pacman.Column * Step, this._pacman.Row * Step);
-        }
-
-        public void MovePacmanUp()
+        public void MovePacmanUp(Action<int, int> callbackFunc)
         {
             if (this._logicalMaze.Field[this._pacman.Row - 1, this._pacman.Column] == MazeTile.Wall)
             {
@@ -70,11 +45,11 @@ namespace Pacman.GameController
             }
 
             this._pacman.Row--;
-            this.UpdatePacmanPanelLocation();
             this.UpdateScore();
+            callbackFunc(this._pacman.Row, this._pacman.Column);
         }
 
-        public void MovePacmanDown()
+        public void MovePacmanDown(Action<int, int> callbackFunc)
         {
             if (this._logicalMaze.Field[this._pacman.Row + 1, this._pacman.Column] == MazeTile.Wall)
             {
@@ -82,11 +57,11 @@ namespace Pacman.GameController
             }
 
             this._pacman.Row++;
-            this.UpdatePacmanPanelLocation();
             this.UpdateScore();
+            callbackFunc(this._pacman.Row, this._pacman.Column);
         }
 
-        public void MovePacmanRight()
+        public void MovePacmanRight(Action<int, int> callbackFunc)
         {
             if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column + 1] == MazeTile.Wall)
             {
@@ -94,11 +69,11 @@ namespace Pacman.GameController
             }
 
             this._pacman.Column++;
-            this.UpdatePacmanPanelLocation();
             this.UpdateScore();
+            callbackFunc(this._pacman.Row, this._pacman.Column);
         }
 
-        public void MovePacmanLeft()
+        public void MovePacmanLeft(Action<int, int> callbackFunc)
         {
             if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column - 1] == MazeTile.Wall)
             {
@@ -106,8 +81,10 @@ namespace Pacman.GameController
             }
 
             this._pacman.Column--;
-            this.UpdatePacmanPanelLocation();
             this.UpdateScore();
+            callbackFunc(this._pacman.Row, this._pacman.Column);
         }
+
+        public ILogicalMaze LogicalMaze => this._logicalMaze;
     }
 }

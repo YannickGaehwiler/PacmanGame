@@ -2,17 +2,8 @@
 
 namespace Pacman.Panels
 {
-    public sealed class PacmanPanel : BasePanel, IPacman
+    public sealed class PacmanPanel : BasePanel
     {
-        public int Column { get; set; }
-        public int Row { get; set; }
-
-        public void SetLogicalLocation(int column, int row)
-        {
-            this.Column = column;
-            this.Row = row;
-        }
-
         public PacmanPanel()
         {
             BackColor = Color.Yellow;
