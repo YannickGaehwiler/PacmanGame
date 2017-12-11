@@ -7,7 +7,7 @@ using Pacman.Panels;
 
 namespace Pacman
 {
-    public partial class Form1 : Form, IUpdateScore
+    public partial class Form1 : Form, IUpdateScore, IUpdatePacman
     {
         private IGameController _gameController;
         private readonly Func<IGameController> _gameControllerFactory;
@@ -30,16 +30,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _gameController.MovePacmanUp(MovePacman);
+                    _gameController.MovePacmanUp();
                     break;
                 case Keys.D:
-                    _gameController.MovePacmanRight(MovePacman);
+                    _gameController.MovePacmanRight();
                     break;
                 case Keys.A:
-                    _gameController.MovePacmanLeft(MovePacman);
+                    _gameController.MovePacmanLeft();
                     break;
                 case Keys.S:
-                    _gameController.MovePacmanDown(MovePacman);
+                    _gameController.MovePacmanDown();
                     break;
             }
         }
@@ -53,10 +53,11 @@ namespace Pacman
                 this._visualMaze = new VisualMaze(_gameController.LogicalMaze);
                 this.ClientSize = new Size(_gameController.LogicalMaze.Field.Length / _gameController.LogicalMaze.Field.GetLength(0) * 50, _gameController.LogicalMaze.Field.GetLength(0) * 50);
                 this._gameController.RegisterScoreUpdater(this);
+                this._gameController.RegisterPacmanLocationChange(this);
             }
         }
         
-        private void MovePacman(int row, int column)
+        public void MovePacman(int row, int column)
         {
             _pacman.MoveTo(row, column);
             UpdateMaze(row, column);

@@ -26,6 +26,7 @@ namespace Pacman.GameController
         };
 
         private IUpdateScore _scoreUpdateHandler;
+        private IUpdatePacman _pacmanUpdateHandler;
 
         private void UpdateScore()
         {
@@ -38,7 +39,7 @@ namespace Pacman.GameController
             this._logicalMaze.Field[this._pacman.Row, this._pacman.Column] = MazeTile.Empty;
         }
 
-        public void MovePacmanUp(Action<int, int> callbackFunc)
+        public void MovePacmanUp()
         {
             if (this._logicalMaze.Field[this._pacman.Row - 1, this._pacman.Column] == MazeTile.Wall)
             {
@@ -47,11 +48,11 @@ namespace Pacman.GameController
 
             this._pacman.Row--;
             this.UpdateScore();
-            callbackFunc(this._pacman.Row, this._pacman.Column);
+            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
-        public void MovePacmanDown(Action<int, int> callbackFunc)
+        public void MovePacmanDown()
         {
             if (this._logicalMaze.Field[this._pacman.Row + 1, this._pacman.Column] == MazeTile.Wall)
             {
@@ -60,11 +61,11 @@ namespace Pacman.GameController
 
             this._pacman.Row++;
             this.UpdateScore();
-            callbackFunc(this._pacman.Row, this._pacman.Column);
+            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
-        public void MovePacmanRight(Action<int, int> callbackFunc)
+        public void MovePacmanRight()
         {
             if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column + 1] == MazeTile.Wall)
             {
@@ -73,11 +74,11 @@ namespace Pacman.GameController
 
             this._pacman.Column++;
             this.UpdateScore();
-            callbackFunc(this._pacman.Row, this._pacman.Column);
+            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
-        public void MovePacmanLeft(Action<int, int> callbackFunc)
+        public void MovePacmanLeft()
         {
             if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column - 1] == MazeTile.Wall)
             {
@@ -86,13 +87,18 @@ namespace Pacman.GameController
 
             this._pacman.Column--;
             this.UpdateScore();
-            callbackFunc(this._pacman.Row, this._pacman.Column);
+            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
         public void RegisterScoreUpdater(IUpdateScore scoreUpdateHandler)
         {
             this._scoreUpdateHandler = scoreUpdateHandler;
+        }
+
+        public void RegisterPacmanLocationChange(IUpdatePacman pacmanUpdateHandler)
+        {
+            this._pacmanUpdateHandler = pacmanUpdateHandler;
         }
 
         public ILogicalMaze LogicalMaze => this._logicalMaze;

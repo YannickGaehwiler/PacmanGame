@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="GameController\GameController.cs" />
     <Compile Include="GameController\IGameController.cs" />
+    <Compile Include="IUpdatePacman.cs" />
     <Compile Include="IUpdateScore.cs" />
     <Compile Include="Pacman\ILogicalPacman.cs" />
     <Compile Include="Panels\EmptyPanel.cs">
