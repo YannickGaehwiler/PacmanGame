@@ -32,16 +32,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _gameController.MovePacmanUp(UpdateMaze);
+                    _gameController.MovePacmanUp(MovePacman, ShowScore);
                     break;
                 case Keys.D:
-                    _gameController.MovePacmanRight(UpdateMaze);
+                    _gameController.MovePacmanRight(MovePacman, ShowScore);
                     break;
                 case Keys.A:
-                    _gameController.MovePacmanLeft(UpdateMaze);
+                    _gameController.MovePacmanLeft(MovePacman, ShowScore);
                     break;
                 case Keys.S:
-                    _gameController.MovePacmanDown(UpdateMaze);
+                    _gameController.MovePacmanDown(MovePacman, ShowScore);
                     break;
             }
         }
@@ -57,10 +57,14 @@ namespace Pacman
             }
         }
         
-        private void UpdateMaze(int row, int column, int score)
+        private void MovePacman(int row, int column)
         {
-            this.Text = "PACMAN - SCORE: " + score;
             _pacman.MoveTo(row, column);
+            UpdateMaze(row, column);
+        }
+
+        private void UpdateMaze(int row, int column)
+        {
             var currentPanel = _visualMaze.GetPanel(row, column);
 
             if (currentPanel is CoinPanel)
@@ -68,6 +72,11 @@ namespace Pacman
                 this.Controls.Remove(currentPanel);
                 _visualMaze.SetPanel(MazeTile.Empty, row, column);
             }
+        }
+
+        private void ShowScore(int score)
+        {
+            this.Text = $"PACMAN - SCORE: {score}";
         }
     }
 }
