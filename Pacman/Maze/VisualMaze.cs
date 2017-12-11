@@ -17,10 +17,7 @@ namespace Pacman.Maze
         private int _currentRow;
         private int _currentColumn;
 
-        private const int XPosition = 30;
-        private const int YPosition = 30;
-
-        public Panel[,] Panels;
+        public BasePanel[,] Panels;
 
         private readonly Dictionary<MazeTile, BasePanel> _panelMapping = new Dictionary<MazeTile, BasePanel>
         {
@@ -40,7 +37,7 @@ namespace Pacman.Maze
             _numberOfRows = logicalMaze.Field.GetLength(0);
             _numberOfColumns = logicalMaze.Field.Length / _numberOfRows;
 
-            Panels = new Panel[_numberOfRows, _numberOfColumns];
+            Panels = new BasePanel[_numberOfRows, _numberOfColumns];
 
             for (var rowNumber = 0; rowNumber < _numberOfRows; rowNumber++)
             {
@@ -56,7 +53,7 @@ namespace Pacman.Maze
             {
                 var template = _panelMapping[logicalMaze.Field[rowNumber, columnNumber]];
                 var panel = template?.Clone();
-                panel.Draw(new Point(XPosition * columnNumber, YPosition * rowNumber));
+                panel.Draw(columnNumber, rowNumber);
                 Panels[_currentRow, _currentColumn] = panel; 
                 _currentColumn++;
             }
@@ -71,6 +68,7 @@ namespace Pacman.Maze
         public void SetPanel(MazeTile panelType, int row, int column)
         {
             Panels[row, column] = this._panelMapping[panelType].Clone();
+            Panels[row, column].Draw(column, row);
         }
     }
 }

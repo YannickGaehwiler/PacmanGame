@@ -36,7 +36,7 @@ namespace Pacman
         private static PacmanPanel CreatePacman()
         {
             var pacman = new PacmanPanel();
-            pacman.Draw(new Point(30 * 1, 30 * 1));
+            pacman.Draw(1, 1);
 
             return pacman;
         }

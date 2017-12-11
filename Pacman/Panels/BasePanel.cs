@@ -5,8 +5,8 @@ namespace Pacman.Panels
 {
     public abstract class BasePanel : Panel
     {
-        private const int PanelWidth = 30;
-        private const int PanelHeigth = 30;
+        private const int PanelWidth = 10;
+        private const int PanelHeigth = 40;
 
         protected BasePanel()
         {
@@ -14,10 +14,11 @@ namespace Pacman.Panels
             BorderStyle = BorderStyle.FixedSingle;
         }
 
-        public void Draw(Point location)
+        public void Draw(int logicalX, int logicalY, bool doRegister = true)
         {
-            Location = location;
-            if (Form.ActiveForm != null)
+            Location = new Point(logicalX * PanelWidth, logicalY * PanelHeigth);
+
+            if (Form.ActiveForm != null && doRegister)
             {
                 Form.ActiveForm.Controls.Add(this);
             }

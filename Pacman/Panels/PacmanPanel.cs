@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Pacman.Panels
 {
@@ -12,6 +13,11 @@ namespace Pacman.Panels
         public override BasePanel Clone()
         {
             return new PacmanPanel();
+        }
+
+        public void MoveTo(int row, int column)
+        {
+            Draw(row, column, false);
         }
     }
 }

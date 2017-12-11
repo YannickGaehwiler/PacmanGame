@@ -57,13 +57,13 @@ namespace Pacman
             {
                 this._pacman = this._pacmanFactory();
                 this._gameController = this._gameControllerFactory();
-                _visualMaze = new VisualMaze(_gameController.LogicalMaze);
+                this._visualMaze = new VisualMaze(_gameController.LogicalMaze);
             }
         }
 
-        private void UpdateMaze(int column, int row)
+        private void UpdateMaze(int column, int row, MazeTile mazeTile)
         {
-            _pacman.Location = new Point(row * 30, column * 30);
+            _pacman.MoveTo(row, column);
             var currentPanel = _visualMaze.GetPanel(column, row);
 
             if (currentPanel is CoinPanel)
