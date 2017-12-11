@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Pacman.GameController;
 using Pacman.Maze;
@@ -8,8 +7,7 @@ using Pacman.Panels;
 
 namespace Pacman
 {
-
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IUpdateScore
     {
         private IGameController _gameController;
         private readonly Func<IGameController> _gameControllerFactory;
@@ -32,16 +30,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _gameController.MovePacmanUp(MovePacman, ShowScore);
+                    _gameController.MovePacmanUp(MovePacman);
                     break;
                 case Keys.D:
-                    _gameController.MovePacmanRight(MovePacman, ShowScore);
+                    _gameController.MovePacmanRight(MovePacman);
                     break;
                 case Keys.A:
-                    _gameController.MovePacmanLeft(MovePacman, ShowScore);
+                    _gameController.MovePacmanLeft(MovePacman);
                     break;
                 case Keys.S:
-                    _gameController.MovePacmanDown(MovePacman, ShowScore);
+                    _gameController.MovePacmanDown(MovePacman);
                     break;
             }
         }
@@ -54,6 +52,7 @@ namespace Pacman
                 this._gameController = this._gameControllerFactory();
                 this._visualMaze = new VisualMaze(_gameController.LogicalMaze);
                 this.ClientSize = new Size(_gameController.LogicalMaze.Field.Length / _gameController.LogicalMaze.Field.GetLength(0) * 50, _gameController.LogicalMaze.Field.GetLength(0) * 50);
+                this._gameController.RegisterScoreUpdater(this);
             }
         }
         
@@ -74,7 +73,7 @@ namespace Pacman
             }
         }
 
-        private void ShowScore(int score)
+        public void ShowScore(int score)
         {
             this.Text = $"PACMAN - SCORE: {score}";
         }

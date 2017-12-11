@@ -6,10 +6,12 @@ namespace Pacman.GameController
 {
     public interface IGameController
     {
-        void MovePacmanUp(Action<int, int> callbackFunc, Action<int> updateScoreFunc);
-        void MovePacmanDown(Action<int, int> callbackFunc, Action<int> updateScoreFunc);
-        void MovePacmanRight(Action<int, int> callbackFunc, Action<int> updateScoreFunc);
-        void MovePacmanLeft(Action<int, int> callbackFunc, Action<int> updateScoreFunc);
+        void MovePacmanUp(Action<int, int> callbackFunc);
+        void MovePacmanDown(Action<int, int> callbackFunc);
+        void MovePacmanRight(Action<int, int> callbackFunc);
+        void MovePacmanLeft(Action<int, int> callbackFunc);
+
+        void RegisterScoreUpdater(IUpdateScore scoreUpdateHandler);
         ILogicalMaze LogicalMaze { get; }
     }
 }
