@@ -59,6 +59,7 @@
     <Compile Include="IUpdatePacman.cs" />
     <Compile Include="IUpdateScore.cs" />
     <Compile Include="Pacman\ILogicalPacman.cs" />
+    <Compile Include="Pacman\PacmanDirection.cs" />
     <Compile Include="Panels\EmptyPanel.cs">
       <SubType>Component</SubType>
     </Compile>

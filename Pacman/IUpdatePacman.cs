@@ -1,7 +1,11 @@
-﻿namespace Pacman
+﻿using System;
+using Pacman.Pacman;
+
+namespace Pacman
 {
     public interface IUpdatePacman
     {
-        void MovePacman(int row, int column);
+        void MovePacmanPanel(int row, int column);
+        void MovePacman(PacmanDirection pacmanDirection);
     }
 }

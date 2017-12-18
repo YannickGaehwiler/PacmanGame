@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Pacman.GameController;
 using Pacman.Maze;
+using Pacman.Pacman;
 using Pacman.Panels;
 
 namespace Pacman
@@ -30,16 +31,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    _gameController.MovePacmanUp();
+                    MovePacman(PacmanDirection.Up);
                     break;
                 case Keys.D:
-                    _gameController.MovePacmanRight();
+                    MovePacman(PacmanDirection.Right);
                     break;
                 case Keys.A:
-                    _gameController.MovePacmanLeft();
+                    MovePacman(PacmanDirection.Left);
                     break;
                 case Keys.S:
-                    _gameController.MovePacmanDown();
+                    MovePacman(PacmanDirection.Down);
                     break;
             }
         }
@@ -56,8 +57,13 @@ namespace Pacman
                 this._gameController.RegisterPacmanLocationChange(this);
             }
         }
+
+        public void MovePacman(PacmanDirection pacmanDirection)
+        {
+            _gameController.MovePacman(pacmanDirection);
+        }
         
-        public void MovePacman(int row, int column)
+        public void MovePacmanPanel(int row, int column)
         {
             _pacman.MoveTo(row, column);
             UpdateMaze(row, column);

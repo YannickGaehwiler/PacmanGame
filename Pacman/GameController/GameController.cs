@@ -16,6 +16,14 @@ namespace Pacman.GameController
         {
             this._logicalMaze = logicalMaze;
             this._pacman = new LogicalPacman(1, 1);
+
+            _pacmanMovement = new Dictionary<PacmanDirection, Action>
+            {
+                {PacmanDirection.Up, () => { MovePacman(-1, 0); }},
+                {PacmanDirection.Right, () => { MovePacman(0, 1); }},
+                {PacmanDirection.Left, () => { MovePacman(0, -1); }},
+                {PacmanDirection.Down, () => { MovePacman(1, 0); }}
+            };
         }
 
         private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
@@ -24,6 +32,8 @@ namespace Pacman.GameController
             {MazeTile.Empty, 0},
             {MazeTile.Superpill, 0}
         };
+
+        private readonly Dictionary<PacmanDirection, Action> _pacmanMovement;
 
         private IUpdateScore _scoreUpdateHandler;
         private IUpdatePacman _pacmanUpdateHandler;
@@ -39,56 +49,29 @@ namespace Pacman.GameController
             this._logicalMaze.Field[this._pacman.Row, this._pacman.Column] = MazeTile.Empty;
         }
 
-        public void MovePacmanUp()
+        private void MovePacman(int rowDelta, int columnDelta)
         {
-            if (this._logicalMaze.Field[this._pacman.Row - 1, this._pacman.Column] == MazeTile.Wall)
+            if (this._logicalMaze.Field[this._pacman.Row + rowDelta, this._pacman.Column + columnDelta] == MazeTile.Wall)
             {
                 return;
             }
 
-            this._pacman.Row--;
+            this._pacman.Row += rowDelta;
+            this._pacman.Column += columnDelta;
+
+            UpdateAndMove();
+        }
+
+        private void UpdateAndMove()
+        {
             this.UpdateScore();
-            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
+            this._pacmanUpdateHandler?.MovePacmanPanel(this._pacman.Row, this._pacman.Column);
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
-        public void MovePacmanDown()
+        public void MovePacman(PacmanDirection pacmanDirection)
         {
-            if (this._logicalMaze.Field[this._pacman.Row + 1, this._pacman.Column] == MazeTile.Wall)
-            {
-                return;
-            }
-
-            this._pacman.Row++;
-            this.UpdateScore();
-            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
-            this._scoreUpdateHandler?.ShowScore(Score);
-        }
-
-        public void MovePacmanRight()
-        {
-            if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column + 1] == MazeTile.Wall)
-            {
-                return;
-            }
-
-            this._pacman.Column++;
-            this.UpdateScore();
-            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
-            this._scoreUpdateHandler?.ShowScore(Score);
-        }
-
-        public void MovePacmanLeft()
-        {
-            if (this._logicalMaze.Field[this._pacman.Row, this._pacman.Column - 1] == MazeTile.Wall)
-            {
-                return;
-            }
-
-            this._pacman.Column--;
-            this.UpdateScore();
-            this._pacmanUpdateHandler?.MovePacman(this._pacman.Row, this._pacman.Column);
-            this._scoreUpdateHandler?.ShowScore(Score);
+            this._pacmanMovement[pacmanDirection].Invoke();
         }
 
         public void RegisterScoreUpdater(IUpdateScore scoreUpdateHandler)
