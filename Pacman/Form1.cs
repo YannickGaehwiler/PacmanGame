@@ -65,38 +65,16 @@ namespace Pacman
 
         public void MovePacmanPanel(int row, int column)
         {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() =>
-                {
-                    _pacman.MoveTo(row, column);
-                    UpdateMaze(row, column);
-                }));
-            }
-            else
+            InvokeUi(() =>
             {
                 _pacman.MoveTo(row, column);
                 UpdateMaze(row, column);
-            }
+            });
         }
 
         private void UpdateMaze(int row, int column)
         {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() =>
-                {
-                    var currentPanel = _visualMaze.GetPanel(row, column);
-
-                    if (!(currentPanel is CoinPanel))
-                    {
-                        return;
-                    }
-                    this.Controls.Remove(currentPanel);
-                    _visualMaze.SetPanel(MazeTile.Empty, row, column);
-                }));
-            }
-            else
+            InvokeUi(() =>
             {
                 var currentPanel = _visualMaze.GetPanel(row, column);
 
@@ -106,22 +84,20 @@ namespace Pacman
                 }
                 this.Controls.Remove(currentPanel);
                 _visualMaze.SetPanel(MazeTile.Empty, row, column);
-            }
+            });
         }
 
         public void ShowScore(int score)
         {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() =>
-                {
-                    this.Text = $"PACMAN - SCORE: {score}";
-                }));
-            }
-            else
+            InvokeUi(() =>
             {
                 this.Text = $"PACMAN - SCORE: {score}";
-            }
+            });
+        }
+
+        private void InvokeUi(Action a)
+        {
+            this.BeginInvoke(new MethodInvoker(a));
         }
     }
 }

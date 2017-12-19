@@ -10,7 +10,7 @@ namespace Pacman.GameController
     {
         private readonly ILogicalMaze _logicalMaze;
         private readonly LogicalPacman _pacman;
-        private Timer aTimer;
+        private PacmanDirection _requestedDirecetion;
 
         public int Score { get; private set; }
 
@@ -27,13 +27,21 @@ namespace Pacman.GameController
                 {PacmanDirection.Down, () => { MovePacman(1, 0); }}
             };
 
-            aTimer = new Timer
+            _pacmanMovementDeltaMapping = new Dictionary<PacmanDirection, Tuple<int, int>>
+            {
+                {PacmanDirection.Up, new Tuple<int, int>(-1, 0) },
+                {PacmanDirection.Right, new Tuple<int, int>(0, 1)},
+                {PacmanDirection.Left, new Tuple<int, int>(0, -1)},
+                {PacmanDirection.Down, new Tuple<int, int>(1, 0)}
+            };
+
+            var paceMaker = new Timer
             {
                 Interval = 400,
                 Enabled = true
             };
-
-            aTimer.Elapsed += NextStep;
+            
+            paceMaker.Elapsed += NextStep;
         }
 
         private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
@@ -44,6 +52,7 @@ namespace Pacman.GameController
         };
 
         private readonly Dictionary<PacmanDirection, Action> _pacmanMovement;
+        private readonly Dictionary<PacmanDirection, Tuple<int, int>> _pacmanMovementDeltaMapping;
 
         private IUpdateScore _scoreUpdateHandler;
         private IUpdatePacman _pacmanUpdateHandler;
@@ -61,7 +70,7 @@ namespace Pacman.GameController
 
         private void MovePacman(int rowDelta, int columnDelta)
         {
-            if (this._logicalMaze.Field[this._pacman.Row + rowDelta, this._pacman.Column + columnDelta] == MazeTile.Wall)
+            if (!CanMove(rowDelta, columnDelta))
             {
                 return;
             }
@@ -70,6 +79,15 @@ namespace Pacman.GameController
             this._pacman.Column += columnDelta;
 
             UpdateAndMove();
+        }
+
+        private bool CanMove(int rowDelta, int columnDelta)
+        {
+            if (this._logicalMaze.Field[this._pacman.Row + rowDelta, this._pacman.Column + columnDelta] == MazeTile.Wall)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void UpdateAndMove()
@@ -83,11 +101,23 @@ namespace Pacman.GameController
 
         public void MovePacman(PacmanDirection pacmanDirection)
         {
-            _currentDirection = pacmanDirection;
+            if (pacmanDirection == _currentDirection)
+            {
+                return;
+            }
+
+            _requestedDirecetion = pacmanDirection;
         }
 
         public void NextStep(Object source, ElapsedEventArgs e)
         {
+            var movementDelta = _pacmanMovementDeltaMapping[_requestedDirecetion];
+
+            if (CanMove(movementDelta.Item1, movementDelta.Item2))
+            {
+                _currentDirection = _requestedDirecetion;
+            }
+
             this._pacmanMovement[this._currentDirection].Invoke();
         }
 
