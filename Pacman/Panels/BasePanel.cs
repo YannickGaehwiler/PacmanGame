@@ -16,7 +16,7 @@ namespace Pacman.Panels
 
         public void Draw(int logicalX, int logicalY, bool doRegister = true)
         {
-            Location = new Point(logicalX * PanelWidth, logicalY * PanelHeigth);
+            this.Location = new Point(logicalX * PanelWidth, logicalY * PanelHeigth);
 
             if (Form.ActiveForm != null && doRegister)
             {

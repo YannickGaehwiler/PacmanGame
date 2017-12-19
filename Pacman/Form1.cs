@@ -62,19 +62,48 @@ namespace Pacman
         {
             _gameController.MovePacman(pacmanDirection);
         }
-        
+
         public void MovePacmanPanel(int row, int column)
         {
-            _pacman.MoveTo(row, column);
-            UpdateMaze(row, column);
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    _pacman.MoveTo(row, column);
+                    UpdateMaze(row, column);
+                }));
+            }
+            else
+            {
+                _pacman.MoveTo(row, column);
+                UpdateMaze(row, column);
+            }
         }
 
         private void UpdateMaze(int row, int column)
         {
-            var currentPanel = _visualMaze.GetPanel(row, column);
-
-            if (currentPanel is CoinPanel)
+            if (InvokeRequired)
             {
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    var currentPanel = _visualMaze.GetPanel(row, column);
+
+                    if (!(currentPanel is CoinPanel))
+                    {
+                        return;
+                    }
+                    this.Controls.Remove(currentPanel);
+                    _visualMaze.SetPanel(MazeTile.Empty, row, column);
+                }));
+            }
+            else
+            {
+                var currentPanel = _visualMaze.GetPanel(row, column);
+
+                if (!(currentPanel is CoinPanel))
+                {
+                    return;
+                }
                 this.Controls.Remove(currentPanel);
                 _visualMaze.SetPanel(MazeTile.Empty, row, column);
             }
@@ -82,7 +111,17 @@ namespace Pacman
 
         public void ShowScore(int score)
         {
-            this.Text = $"PACMAN - SCORE: {score}";
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    this.Text = $"PACMAN - SCORE: {score}";
+                }));
+            }
+            else
+            {
+                this.Text = $"PACMAN - SCORE: {score}";
+            }
         }
     }
 }

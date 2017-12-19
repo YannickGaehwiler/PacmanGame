@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 using Pacman.Maze;
 using Pacman.Pacman;
 
@@ -9,6 +10,7 @@ namespace Pacman.GameController
     {
         private readonly ILogicalMaze _logicalMaze;
         private readonly LogicalPacman _pacman;
+        private Timer aTimer;
 
         public int Score { get; private set; }
 
@@ -24,6 +26,14 @@ namespace Pacman.GameController
                 {PacmanDirection.Left, () => { MovePacman(0, -1); }},
                 {PacmanDirection.Down, () => { MovePacman(1, 0); }}
             };
+
+            aTimer = new Timer
+            {
+                Interval = 400,
+                Enabled = true
+            };
+
+            aTimer.Elapsed += NextStep;
         }
 
         private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
@@ -69,9 +79,16 @@ namespace Pacman.GameController
             this._scoreUpdateHandler?.ShowScore(Score);
         }
 
+        private PacmanDirection _currentDirection;
+
         public void MovePacman(PacmanDirection pacmanDirection)
         {
-            this._pacmanMovement[pacmanDirection].Invoke();
+            _currentDirection = pacmanDirection;
+        }
+
+        public void NextStep(Object source, ElapsedEventArgs e)
+        {
+            this._pacmanMovement[this._currentDirection].Invoke();
         }
 
         public void RegisterScoreUpdater(IUpdateScore scoreUpdateHandler)
