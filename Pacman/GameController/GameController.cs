@@ -21,10 +21,10 @@ namespace Pacman.GameController
 
             _pacmanMovement = new Dictionary<PacmanDirection, Action>
             {
-                {PacmanDirection.Up, () => { MovePacman(-1, 0); }},
-                {PacmanDirection.Right, () => { MovePacman(0, 1); }},
-                {PacmanDirection.Left, () => { MovePacman(0, -1); }},
-                {PacmanDirection.Down, () => { MovePacman(1, 0); }}
+                {PacmanDirection.Up, () => { MovePacman2(PacmanDirection.Up); }},
+                {PacmanDirection.Right, () => { MovePacman2(PacmanDirection.Right); }},
+                {PacmanDirection.Left, () => { MovePacman2(PacmanDirection.Left); }},
+                {PacmanDirection.Down, () => { MovePacman2(PacmanDirection.Down); }}
             };
 
             _pacmanMovementDeltaMapping = new Dictionary<PacmanDirection, Tuple<int, int>>
@@ -37,11 +37,18 @@ namespace Pacman.GameController
 
             var paceMaker = new Timer
             {
-                Interval = 400,
+                Interval = 350,
                 Enabled = true
             };
             
             paceMaker.Elapsed += NextStep;
+        }
+
+        public void MovePacman2(PacmanDirection pacmanDirection)
+        {
+            var x = _pacmanMovementDeltaMapping[pacmanDirection];
+
+            MovePacman(x.Item1, x.Item2);
         }
 
         private readonly Dictionary<MazeTile, int> _scoreDelta = new Dictionary<MazeTile, int>
