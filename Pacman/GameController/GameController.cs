@@ -24,7 +24,7 @@ namespace Pacman.GameController
         {
             this._logicalMaze = logicalMaze;
             this._pacman = new LogicalPacman(1, 1, logicalMaze);
-            this._ghost = new LogicalGhost(4, 4, logicalMaze);
+            this._ghost = new LogicalGhost(4, 4, logicalMaze, _pacman);
 
             var paceMaker = new Timer
             {

@@ -6,7 +6,7 @@ namespace Pacman
 {
     public class LogicalPiece
     {
-        private readonly ILogicalMaze _logicalMaze;
+        protected readonly ILogicalMaze _logicalMaze;
 
         protected readonly Dictionary<Direction, Tuple<int, int>> MovementDeltaMapping;
         private readonly Dictionary<Direction, Action> _movement;
