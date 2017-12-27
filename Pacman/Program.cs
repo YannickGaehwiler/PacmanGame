@@ -20,7 +20,7 @@ namespace Pacman
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var myForm = new Form1(CreateGameController, CreatePacman);
+            var myForm = new Form1(CreateGameController, CreatePacman, CreateGhostPanel);
             Application.Run(myForm);
         }
 
@@ -39,6 +39,14 @@ namespace Pacman
             pacman.Draw(1, 1);
 
             return pacman;
+        }
+
+        private static GhostPanel CreateGhostPanel()
+        {
+            var ghost = new GhostPanel();
+            ghost.Draw(4, 4);
+
+            return ghost;
         }
     }
 }

@@ -8,7 +8,7 @@ using Pacman.Panels;
 
 namespace Pacman
 {
-    public partial class Form1 : Form, IUpdateScore, IUpdatePacman
+    public partial class Form1 : Form, IUpdateScore, IUpdatePacman, IUpdateGhost
     {
         private IGameController _gameController;
         private readonly Func<IGameController> _gameControllerFactory;
@@ -16,14 +16,18 @@ namespace Pacman
         private PacmanPanel _pacman;
         private readonly Func<PacmanPanel> _pacmanFactory;
 
+        private GhostPanel _ghost;
+        private readonly Func<GhostPanel> _ghostFactory;
+
         private IVisualMaze _visualMaze;
 
-        public Form1(Func<IGameController> gameControllerFactory, Func<PacmanPanel> pacmanFactory)
+        public Form1(Func<IGameController> gameControllerFactory, Func<PacmanPanel> pacmanFactory, Func<GhostPanel> ghostFactory)
         {
             InitializeComponent();
             KeyPreview = true;
             this._gameControllerFactory = gameControllerFactory;
             this._pacmanFactory = pacmanFactory;
+            this._ghostFactory = ghostFactory;
         }
         
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -31,16 +35,16 @@ namespace Pacman
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    MovePacman(PacmanDirection.Up);
+                    MovePacman(Direction.Up);
                     break;
                 case Keys.D:
-                    MovePacman(PacmanDirection.Right);
+                    MovePacman(Direction.Right);
                     break;
                 case Keys.A:
-                    MovePacman(PacmanDirection.Left);
+                    MovePacman(Direction.Left);
                     break;
                 case Keys.S:
-                    MovePacman(PacmanDirection.Down);
+                    MovePacman(Direction.Down);
                     break;
             }
         }
@@ -50,18 +54,21 @@ namespace Pacman
             if (this._gameController == null)
             {
                 this._pacman = this._pacmanFactory();
+                this._ghost = this._ghostFactory();
                 this._gameController = this._gameControllerFactory();
                 this._visualMaze = new VisualMaze(_gameController.LogicalMaze);
                 this.ClientSize = new Size(_gameController.LogicalMaze.Field.Length / _gameController.LogicalMaze.Field.GetLength(0) * 50, _gameController.LogicalMaze.Field.GetLength(0) * 50);
                 this._gameController.RegisterScoreUpdater(this);
                 this._gameController.RegisterPacmanLocationChange(this);
+                this._gameController.RegisterGhostLocationChange(this);
             }
         }
 
-        public void MovePacman(PacmanDirection pacmanDirection)
+        public void MovePacman(Direction direction)
         {
-            _gameController.MovePacman(pacmanDirection);
+            _gameController.ChangeDirection(direction);
         }
+        
 
         public void MovePacmanPanel(int row, int column)
         {
@@ -69,6 +76,14 @@ namespace Pacman
             {
                 _pacman.MoveTo(row, column);
                 UpdateMaze(row, column);
+            });
+        }
+
+        public void MoveGhostPanel(int row, int column)
+        {
+            InvokeUi(() =>
+            {
+                _ghost.MoveTo(row, column);
             });
         }
 

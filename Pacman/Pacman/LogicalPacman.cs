@@ -1,11 +1,10 @@
-﻿namespace Pacman.Pacman
-{
-    public class LogicalPacman : ILogicalPacman
-    {
-        public int Column { get; set; }
-        public int Row { get; set; }
+﻿using Pacman.Maze;
 
-        public LogicalPacman(int row, int col)
+namespace Pacman.Pacman
+{
+    public class LogicalPacman : Movement, ILogicalPacman
+    {
+        public LogicalPacman(int row, int col, ILogicalMaze logicalMaze) : base(logicalMaze)
         {
             this.Column = col;
             this.Row = row;

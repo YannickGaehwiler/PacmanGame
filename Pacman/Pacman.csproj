@@ -56,10 +56,14 @@
     </Compile>
     <Compile Include="GameController\GameController.cs" />
     <Compile Include="GameController\IGameController.cs" />
+    <Compile Include="ILogicalGhost.cs" />
+    <Compile Include="IUpdateGhost.cs" />
     <Compile Include="IUpdatePacman.cs" />
     <Compile Include="IUpdateScore.cs" />
+    <Compile Include="LogicalGhost.cs" />
+    <Compile Include="Movement.cs" />
     <Compile Include="Pacman\ILogicalPacman.cs" />
-    <Compile Include="Pacman\PacmanDirection.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="Panels\EmptyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,6 +75,9 @@
     <Compile Include="Maze\MazeGenerator.cs" />
     <Compile Include="Maze\MazeTile.cs" />
     <Compile Include="Pacman\LogicalPacman.cs" />
+    <Compile Include="Panels\GhostPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Panels\PacmanPanel.cs">
       <SubType>Component</SubType>
     </Compile>

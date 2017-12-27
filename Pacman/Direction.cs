@@ -1,6 +1,6 @@
-﻿namespace Pacman.Pacman
+﻿namespace Pacman
 {
-    public enum PacmanDirection
+    public enum Direction
     {
         Up,
         Down,

@@ -6,6 +6,6 @@ namespace Pacman
     public interface IUpdatePacman
     {
         void MovePacmanPanel(int row, int column);
-        void MovePacman(PacmanDirection pacmanDirection);
+        void MovePacman(Direction direction);
     }
 }

@@ -7,9 +7,10 @@ namespace Pacman.GameController
 {
     public interface IGameController
     {
-        void MovePacman(PacmanDirection pacmanDirection);
+        void ChangeDirection(Direction direction);
         void RegisterScoreUpdater(IUpdateScore scoreUpdateHandler);
         void RegisterPacmanLocationChange(IUpdatePacman pacmanUpdateHandler);
+        void RegisterGhostLocationChange(IUpdateGhost ghostUpdateHandler);
         ILogicalMaze LogicalMaze { get; }
     }
 }
