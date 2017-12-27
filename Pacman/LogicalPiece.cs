@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 using Pacman.Maze;
 
 namespace Pacman
 {
-    public class Movement
+    public class LogicalPiece
     {
         private readonly ILogicalMaze _logicalMaze;
 
-        protected readonly Dictionary<Direction, Tuple<int, int>> _movementDeltaMapping;
-        protected readonly Dictionary<Direction, Action> _movement;
+        protected readonly Dictionary<Direction, Tuple<int, int>> MovementDeltaMapping;
+        private readonly Dictionary<Direction, Action> _movement;
 
         public int Column { get; set; }
         public int Row { get; set; }
@@ -18,11 +17,13 @@ namespace Pacman
         private Direction _currentDirection;
         private Direction _requestedDirecetion;
 
-        public Movement(ILogicalMaze logicalMaze)
+        public LogicalPiece(int col, int row, ILogicalMaze logicalMaze)
         {
             _logicalMaze = logicalMaze;
+            this.Column = col;
+            this.Row = row;
 
-            _movementDeltaMapping = new Dictionary<Direction, Tuple<int, int>>
+            MovementDeltaMapping = new Dictionary<Direction, Tuple<int, int>>
             {
                 {Direction.Up, new Tuple<int, int>(-1, 0) },
                 {Direction.Right, new Tuple<int, int>(0, 1)},
@@ -41,7 +42,7 @@ namespace Pacman
 
         public virtual void Move(Direction direction)
         {
-            var movementDelta = _movementDeltaMapping[direction];
+            var movementDelta = MovementDeltaMapping[direction];
 
             Move(movementDelta.Item1, movementDelta.Item2);
         }
@@ -78,7 +79,7 @@ namespace Pacman
 
         public void NextStep()
         {
-            var movementDelta = _movementDeltaMapping[_requestedDirecetion];
+            var movementDelta = MovementDeltaMapping[_requestedDirecetion];
 
             if (CanMove(movementDelta.Item1, movementDelta.Item2))
             {

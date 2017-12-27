@@ -2,12 +2,11 @@
 
 namespace Pacman.Pacman
 {
-    public class LogicalPacman : Movement, ILogicalPacman
+    public class LogicalPacman : LogicalPiece, ILogicalPacman
     {
-        public LogicalPacman(int row, int col, ILogicalMaze logicalMaze) : base(logicalMaze)
+        public LogicalPacman(int row, int col, ILogicalMaze logicalMaze) : base(col, row, logicalMaze)
         {
-            this.Column = col;
-            this.Row = row;
+
         }
     }
 }

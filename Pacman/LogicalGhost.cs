@@ -4,17 +4,14 @@ using Pacman.Maze;
 
 namespace Pacman
 {
-    public class LogicalGhost : Movement
+    public class LogicalGhost : LogicalPiece
     {
 
         private readonly Dictionary<int, Direction> _movementMapping;
         private readonly Random _random = new Random();
 
-        public LogicalGhost(int row, int col, ILogicalMaze logicalMaze) : base(logicalMaze)
+        public LogicalGhost(int row, int col, ILogicalMaze logicalMaze) : base(col, row, logicalMaze)
         {
-            this.Column = col;
-            this.Row = row;
-
             _movementMapping = new Dictionary<int, Direction>
             {
                 {0, Direction.Up },
@@ -31,7 +28,7 @@ namespace Pacman
 
         public override void Move(Direction direction)
         {
-            var movementDelta = _movementDeltaMapping[direction];
+            var movementDelta = MovementDeltaMapping[direction];
 
             Move(movementDelta.Item1, movementDelta.Item2);
             ChangeDirection(this.RandomDirection());
